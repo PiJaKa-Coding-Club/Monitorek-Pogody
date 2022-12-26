@@ -1,115 +1,11 @@
 import styled from 'styled-components';
-import {
-    PressureIcon,
-    AirQualityIcon,
-    HumidityIcon,
-    VisibilityIcon,
-    TemperatureFeelIcon,
-    TemperatureRealIcon,
-    SunsetIcon,
-    SunriseIcon,
-    UVIndexIcon,
-    MoonSetIcon,
-    MoonRiseIcon,
-    MoonFullIcon,
-    RainIcon,
-    WindSpeedIcon,
-    WindDirectionIcon,
-    SunnyIcon,
-} from '../assets';
 import { Column, Row } from '../components/elements/Column';
-import { Icon } from '../components/elements/WeatherBox';
 import { Wrapper } from '../components/elements/Wrapper';
 import { NavigatorTab } from '../components/NavigatorTab';
+import { NoPlace } from '../components/NoPlace';
 import { Place } from '../components/Place';
 import { WeatherBox } from '../components/WeatherBox';
-import { IconValueUnit } from '../types/weather';
-
-const air: IconValueUnit[] = [
-    {
-        icon: PressureIcon,
-        value: 1012,
-        unit: 'hPa',
-    },
-    {
-        icon: AirQualityIcon,
-        value: 'Dobre',
-    },
-    {
-        icon: HumidityIcon,
-        value: 1012,
-        unit: 'hPa',
-    },
-    {
-        icon: VisibilityIcon,
-        value: 100,
-        unit: '%',
-    },
-];
-
-const temp: IconValueUnit[] = [
-    {
-        icon: TemperatureFeelIcon,
-        value: 30,
-        unit: '°C',
-    },
-    {
-        icon: TemperatureRealIcon,
-        value: 40,
-        unit: '°C',
-    },
-];
-
-const sun: IconValueUnit[] = [
-    {
-        icon: SunsetIcon,
-        value: '20:00',
-    },
-    {
-        icon: SunriseIcon,
-        value: '10:00',
-    },
-    {
-        icon: UVIndexIcon,
-        value: 3,
-    },
-];
-
-const moon: IconValueUnit[] = [
-    {
-        icon: MoonSetIcon,
-        value: '20:00',
-    },
-    {
-        icon: MoonRiseIcon,
-        value: '10:00',
-    },
-    {
-        icon: MoonFullIcon, //TODO: dynamic icon
-        value: 'Pełnia',
-        reversed: true,
-    },
-];
-
-const rain: IconValueUnit[] = [
-    {
-        icon: RainIcon,
-        value: '21',
-        unit: 'mm',
-    },
-];
-
-const wind: IconValueUnit[] = [
-    {
-        icon: WindSpeedIcon,
-        value: '21',
-        unit: 'm/s',
-    },
-    {
-        icon: WindDirectionIcon,
-        value: 'SW',
-    },
-];
+import { useWeather } from '../hooks/useWeather';
 
 const Page = styled.div`
     width: 100%;
@@ -136,29 +32,43 @@ const Controller = styled.div`
 `;
 
 export const CurrentWeather = () => {
+    const { place, weather, air, temp, sun, moon, rain, wind } = useWeather();
+
     return (
         <Page>
             <Wrapper>
                 <Controller>
                     <LeftCol>
-                        <Place />
-                        <Row>
-                            <Column>
-                                <WeatherBox data={air} />
-                                <WeatherBox data={temp} />
-                            </Column>
+                        {place && weather && (
+                            <>
+                                <Place
+                                    name={place}
+                                    condition={weather.condition}
+                                />
+                                <Row>
+                                    <Column>
+                                        {air && <WeatherBox data={air} />}
+                                        {temp && <WeatherBox data={temp} />}
+                                    </Column>
 
-                            <Column>
-                                <WeatherBox data={sun} />
-                                <WeatherBox data={moon} />
-                            </Column>
-                        </Row>
+                                    <Column>
+                                        {sun && <WeatherBox data={sun} />}
+                                        {moon && <WeatherBox data={moon} />}
+                                    </Column>
+                                </Row>
+                            </>
+                        )}
+                        {!place && <NoPlace />}
                     </LeftCol>
 
                     <RightCol>
                         <NavigatorTab />
-                        <WeatherBox data={rain} />
-                        <WeatherBox data={wind} />
+                        {place && (
+                            <>
+                                {rain && <WeatherBox data={rain} />}
+                                {wind && <WeatherBox data={wind} />}
+                            </>
+                        )}
                     </RightCol>
                 </Controller>
             </Wrapper>
