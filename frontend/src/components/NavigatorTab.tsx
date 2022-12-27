@@ -1,10 +1,13 @@
 import styled from 'styled-components';
 import { button, shadow } from '../styles/colors/colors';
 import { StyledWeatherBox } from './elements/WeatherBox';
+import { useNavigate } from 'react-router-dom';
 
 const StyledNavigatorTab = styled(StyledWeatherBox)`
     border-radius: 30px;
     border: 1px solid black;
+    width: 100%;
+    padding: 10px;
 `;
 
 const StyledButton = styled.button<{ bold?: boolean }>`
@@ -20,10 +23,27 @@ const StyledButton = styled.button<{ bold?: boolean }>`
 `;
 
 export const NavigatorTab = () => {
+    const navigate = useNavigate();
+    const path = window.location.href.split('/').pop();
+
     return (
         <StyledNavigatorTab>
-            <StyledButton bold>Aktualna Pogoda</StyledButton>
-            <StyledButton>Dane Historyczne</StyledButton>
+            <StyledButton
+                bold={path === 'current'}
+                onClick={() => {
+                    navigate('/current');
+                }}
+            >
+                Aktualna Pogoda
+            </StyledButton>
+            <StyledButton
+                bold={path === 'history'}
+                onClick={() => {
+                    navigate('/history');
+                }}
+            >
+                Dane Historyczne
+            </StyledButton>
             <StyledButton>Pogoda na żywo</StyledButton>
         </StyledNavigatorTab>
     );

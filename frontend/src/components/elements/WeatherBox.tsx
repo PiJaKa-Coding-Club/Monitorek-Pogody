@@ -6,8 +6,10 @@ export const StyledWeatherBox = styled.div`
     padding: 10px;
     border-radius: 10px;
     box-shadow: ${shadowBox};
-    margin: 10px;
     border: 1px solid black;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 10px;
 `;
 
 export const WeatherRow = styled.div<{ reversed: boolean }>`
