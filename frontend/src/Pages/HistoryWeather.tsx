@@ -6,13 +6,11 @@ import { Place } from '../components/Place';
 import { WeatherBox } from '../components/WeatherBox';
 import { useWeather } from '../hooks/useWeather';
 import Calendar from 'react-calendar';
-import { useState } from 'react';
 import '../styles/Calendar.css';
 import { NoPlace } from '../components/NoPlace';
 
 export const HistoryWeather = () => {
-    const { place, weather, sun, moon } = useWeather();
-    const [value, onChange] = useState(new Date());
+    const { place, sun, moon, date, setDate, history } = useWeather();
 
     return (
         <Page>
@@ -26,15 +24,15 @@ export const HistoryWeather = () => {
                                 flexDirection: 'column',
                             }}
                         >
-                            <h1>{`${value.getDate()}.${value.getMonth()}.${value.getFullYear()}`}</h1>
-                            <Calendar onChange={onChange} value={value} />
+                            <h1>{`${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`}</h1>
+                            <Calendar onChange={setDate} value={date} />
                         </StyledWeatherBox>
-                        {place && weather && (
+                        {place && history && (
                             <>
                                 <Column>
                                     <Place
                                         name={place}
-                                        condition={weather.condition}
+                                        condition={history.condition}
                                     />
                                     <Row>
                                         {moon && (
