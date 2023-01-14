@@ -9,7 +9,19 @@ import Calendar from 'react-calendar';
 import '../styles/Calendar.css';
 import { NoPlace } from '../components/NoPlace';
 import { ChartBox } from '../components/ChartBox';
-import { AirQualityIcon, HumidityIcon, PressureIcon, RainIcon, TemperatureFeelIcon, TemperatureRealIcon, UVIndexIcon, VisibilityIcon, WindDirectionIcon, WindSpeedIcon, WindyIcon } from '../assets';
+import {
+    AirQualityIcon,
+    HumidityIcon,
+    PressureIcon,
+    RainIcon,
+    TemperatureFeelIcon,
+    TemperatureRealIcon,
+    UVIndexIcon,
+    VisibilityIcon,
+    WindDirectionIcon,
+    WindSpeedIcon,
+    WindyIcon,
+} from '../assets';
 
 export const HistoryWeather = () => {
     const { place, sun, moon, date, setDate, history } = useWeather();
@@ -27,8 +39,17 @@ export const HistoryWeather = () => {
                                     flexDirection: 'column',
                                 }}
                             >
-                                <h1>{`${date.getDate()}.${(date.getMonth()+1).toString().padStart(2,'0')}.${date.getFullYear()}`}</h1>
-                                <Calendar onChange={setDate} value={date} maxDate={new Date()}/>
+                                <h1>{`${date.getDate()}.${(date.getMonth() + 1)
+                                    .toString()
+                                    .padStart(
+                                        2,
+                                        '0'
+                                    )}.${date.getFullYear()}`}</h1>
+                                <Calendar
+                                    onChange={setDate}
+                                    value={date}
+                                    maxDate={new Date()}
+                                />
                             </StyledWeatherBox>
                         </Column>
                         {place && history && (
@@ -67,18 +88,15 @@ export const HistoryWeather = () => {
                             <Row>
                                 <Column>
                                     <ChartBox
-                                        icons={[
-                                            RainIcon,
-                                        ]}
+                                        icons={[RainIcon]}
                                         label1="Opady"
                                         data1={history.rain}
+                                        unit={'mm'}
                                     />
                                 </Column>
                                 <Column>
                                     <ChartBox
-                                        icons={[
-                                            UVIndexIcon,
-                                        ]}
+                                        icons={[UVIndexIcon]}
                                         label1="Indeks UV"
                                         data1={history.uv}
                                     />
@@ -91,8 +109,9 @@ export const HistoryWeather = () => {
                                             WindSpeedIcon,
                                             WindDirectionIcon,
                                         ]}
-                                        label1={"Prędkość wiatru"}
+                                        label1={'Prędkość wiatru'}
                                         data1={history.wind}
+                                        unit={'m/s'}
                                     />
                                 </Column>
                                 <Column>
@@ -101,36 +120,33 @@ export const HistoryWeather = () => {
                                             TemperatureRealIcon,
                                             TemperatureFeelIcon,
                                         ]}
-                                        label1={"Temperatura rzeczywista"}
+                                        label1={'Temperatura rzeczywista'}
                                         data1={history.temp_real}
-                                        label2={"Temperatura odczuwalna"}
+                                        label2={'Temperatura odczuwalna'}
                                         data2={history.temp_feel}
+                                        unit={'°C'}
                                     />
                                 </Column>
                             </Row>
                             <Row>
                                 <Column>
                                     <ChartBox
-                                        icons={[
-                                            PressureIcon,
-                                            AirQualityIcon,
-                                        ]}
-                                        label1={"Ciśnienie"}
+                                        icons={[PressureIcon, AirQualityIcon]}
+                                        label1={'Ciśnienie'}
                                         data1={history.pressure}
+                                        unit={'hPa'}
                                     />
                                 </Column>
                             </Row>
                             <Row>
                                 <Column>
                                     <ChartBox
-                                        icons={[
-                                            HumidityIcon,
-                                            VisibilityIcon,
-                                        ]}
-                                        label1={"Wilgotność"}
+                                        icons={[HumidityIcon, VisibilityIcon]}
+                                        label1={'Wilgotność'}
                                         data1={history.humidity}
-                                        label2={"Widoczność"}
+                                        label2={'Widoczność'}
                                         data2={history.visibility}
+                                        unit={'%'}
                                     />
                                 </Column>
                             </Row>

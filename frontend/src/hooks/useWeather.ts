@@ -48,11 +48,11 @@ createServer({
                     visibility: 10,
                     temp_feel: rand(20, 30),
                     temp_real: rand(20, 30),
-                    sunset: '18:00',
-                    sunrise: '6:00',
+                    sunset: '2022-12-12T22:21:00.000Z',
+                    sunrise: '2022-12-12T22:21:00.000Z',
                     uv: 1,
-                    moonset: '18:00',
-                    moonrise: '6:00',
+                    moonset: '2022-12-12T22:21:00.000Z',
+                    moonrise: '2022-12-12T22:21:00.000Z',
                     moon: 'pełnia',
                     rain: 20,
                     wind: 20,
@@ -83,15 +83,54 @@ createServer({
             // date ISO format = '2022-12-28T09:16:20.120Z'
             const dateObj = new Date(date);
 
-
             const day = (dateObj.getMonth() + 1).toString().padStart(2, '0');
             const month = (dateObj.getMonth() + 1).toString().padStart(2, '0'); // padStart to add leading zero
             const year = dateObj.getFullYear();
 
-            const hours: string[] = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23']
+            const hours: string[] = [
+                '00',
+                '01',
+                '02',
+                '03',
+                '04',
+                '05',
+                '06',
+                '07',
+                '08',
+                '09',
+                '10',
+                '11',
+                '12',
+                '13',
+                '14',
+                '15',
+                '16',
+                '17',
+                '18',
+                '19',
+                '20',
+                '21',
+                '22',
+                '23',
+            ];
 
-            const qualities: string[] = ['bardzo dobre', 'dobre', 'umiarkowane', 'złe', 'bardzo złe'];
-            const windDirections: string[] = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+            const qualities: string[] = [
+                'bardzo dobre',
+                'dobre',
+                'umiarkowane',
+                'złe',
+                'bardzo złe',
+            ];
+            const windDirections: string[] = [
+                'N',
+                'NE',
+                'E',
+                'SE',
+                'S',
+                'SW',
+                'W',
+                'NW',
+            ];
 
             return {
                 weather: {
@@ -100,64 +139,104 @@ createServer({
                     condition: 'rainy', //historical condition (average of day)
                     pressure: [
                         ...hours.map(hour => {
-                            return {date: `${year}-${month}-${day}T${hour}:00:00.000Z`, value: rand(998, 1020)}
-                        })
+                            return {
+                                date: `${year}-${month}-${day}T${hour}:00:00.000Z`,
+                                value: rand(998, 1020),
+                            };
+                        }),
                     ],
                     air_quality: [
                         ...hours.map(hour => {
-                            return {date: `${year}-${month}-${day}T${hour}:00:00.000Z`, value: qualities[rand(0, qualities.length)]}
-                        })
+                            return {
+                                date: `${year}-${month}-${day}T${hour}:00:00.000Z`,
+                                value: qualities[rand(0, qualities.length)],
+                            };
+                        }),
                     ],
                     humidity: [
                         ...hours.map(hour => {
-                            return {date: `${year}-${month}-${day}T${hour}:00:00.000Z`, value: rand(30, 55)}
-                        })
+                            return {
+                                date: `${year}-${month}-${day}T${hour}:00:00.000Z`,
+                                value: rand(30, 55),
+                            };
+                        }),
                     ],
                     visibility: [
                         ...hours.map(hour => {
-                            return {date: `${year}-${month}-${day}T${hour}:00:00.000Z`, value: rand(30, 55)}
-                        })
+                            return {
+                                date: `${year}-${month}-${day}T${hour}:00:00.000Z`,
+                                value: rand(30, 55),
+                            };
+                        }),
                     ],
                     temp_feel: [
                         ...hours.map(hour => {
-                            return {date: `${year}-${month}-${day}T${hour}:00:00.000Z`, value: rand(12, 23)}
-                        })
+                            return {
+                                date: `${year}-${month}-${day}T${hour}:00:00.000Z`,
+                                value: rand(12, 23),
+                            };
+                        }),
                     ],
                     temp_real: [
                         ...hours.map(hour => {
-                            return {date: `${year}-${month}-${day}T${hour}:00:00.000Z`, value: rand(12, 22)}
-                        })
+                            return {
+                                date: `${year}-${month}-${day}T${hour}:00:00.000Z`,
+                                value: rand(12, 22),
+                            };
+                        }),
                     ],
                     sunset: `${year}-${month}-${day}T22:21:00.000Z`,
                     sunrise: `${year}-${month}-${day}T22:21:00.000Z`,
                     uv: [
                         ...hours.map(hour => {
-                            return {date: `${year}-${month}-${day}T${hour}:00:00.000Z`, value: rand(1, 6)}
-                        })
+                            return {
+                                date: `${year}-${month}-${day}T${hour}:00:00.000Z`,
+                                value: rand(1, 6),
+                            };
+                        }),
                     ],
                     moonset: `${year}-${month}-${day}T22:21:00.000Z`, //hour is variable
-                    moonrise: `${year}-${month}-${day}T06:00:00.000Z`,//hour is variable
+                    moonrise: `${year}-${month}-${day}T06:00:00.000Z`, //hour is variable
                     moon: 'pełnia',
                     rain: [
                         ...hours.map(hour => {
-                            return {date: `${year}-${month}-${day}T${hour}:00:00.000Z`, value: rand(10, 14)}
-                        })
+                            return {
+                                date: `${year}-${month}-${day}T${hour}:00:00.000Z`,
+                                value: rand(10, 14),
+                            };
+                        }),
                     ],
                     wind: [
                         ...hours.map(hour => {
-                            return {date: `${year}-${month}-${day}T${hour}:00:00.000Z`, value: rand(2, 6)}
-                        })
+                            return {
+                                date: `${year}-${month}-${day}T${hour}:00:00.000Z`,
+                                value: rand(2, 6),
+                            };
+                        }),
                     ],
                     wind_direction: [
                         ...hours.map(hour => {
-                            return {date: `${year}-${month}-${day}T${hour}:00:00.000Z`, value: windDirections[rand(0, windDirections.length)]}
-                        })
+                            return {
+                                date: `${year}-${month}-${day}T${hour}:00:00.000Z`,
+                                value: windDirections[
+                                    rand(0, windDirections.length)
+                                ],
+                            };
+                        }),
                     ],
                 },
             };
         });
     },
 });
+
+const dateToHours = (ISO: string) => {
+    console.log(ISO);
+    const date = new Date(ISO);
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+};
 
 export const useWeather = () => {
     const path = window.location.href.split('/').pop();
@@ -234,11 +313,11 @@ export const useWeather = () => {
             setSun([
                 {
                     icon: SunsetIcon,
-                    value: weather.sunset,
+                    value: dateToHours(weather.sunset),
                 },
                 {
                     icon: SunriseIcon,
-                    value: weather.sunrise,
+                    value: dateToHours(weather.sunrise),
                 },
                 {
                     icon: UVIndexIcon,
@@ -248,11 +327,11 @@ export const useWeather = () => {
             setMoon([
                 {
                     icon: MoonSetIcon,
-                    value: weather.moonset,
+                    value: dateToHours(weather.moonset),
                 },
                 {
                     icon: MoonRiseIcon,
-                    value: weather.moonrise,
+                    value: dateToHours(weather.moonrise),
                 },
                 {
                     icon: getMoonIcon(weather.moon),
@@ -286,21 +365,21 @@ export const useWeather = () => {
             setSun([
                 {
                     icon: SunsetIcon,
-                    value: history.sunset,
+                    value: dateToHours(history.sunset),
                 },
                 {
                     icon: SunriseIcon,
-                    value: history.sunrise,
+                    value: dateToHours(history.sunrise),
                 },
             ]);
             setMoon([
                 {
                     icon: MoonSetIcon,
-                    value: history.moonset,
+                    value: dateToHours(history.moonset),
                 },
                 {
                     icon: MoonRiseIcon,
-                    value: history.moonrise,
+                    value: dateToHours(history.moonrise),
                 },
                 {
                     icon: getMoonIcon(history.moon),

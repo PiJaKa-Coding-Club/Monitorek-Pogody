@@ -39,12 +39,12 @@ export type CurrentWeather = {
 export type DataNumber = {
     date: string;
     value: number;
-}
+};
 
 export type DataString = {
     date: string;
     value: number;
-}
+};
 
 export type HistoricalWeather = {
     place: string;
@@ -53,17 +53,17 @@ export type HistoricalWeather = {
     pressure: DataNumber[];
     air_quality: DataString[];
     humidity: DataNumber[];
-    visibility:  DataNumber[];
-    temp_feel:  DataNumber[];
-    temp_real:  DataNumber[];
+    visibility: DataNumber[];
+    temp_feel: DataNumber[];
+    temp_real: DataNumber[];
     sunset: string;
     sunrise: string;
-    uv:  DataNumber[];
+    uv: DataNumber[];
     moonset: string;
     moonrise: string;
     moon: string;
-    rain:  DataNumber[];
-    wind:  DataNumber[];
+    rain: DataNumber[];
+    wind: DataNumber[];
     wind_direction: DataString[];
 };
 
