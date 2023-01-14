@@ -36,25 +36,35 @@ export type CurrentWeather = {
     wind_direction: string;
 };
 
+export type DataNumber = {
+    date: string;
+    value: number;
+}
+
+export type DataString = {
+    date: string;
+    value: number;
+}
+
 export type HistoricalWeather = {
     place: string;
     date: string;
     condition: WeatherCondition;
-    pressure: { [key: number]: number };
-    air_quality: { [key: number]: string };
-    humidity: { [key: number]: number };
-    visibility: { [key: number]: number };
-    temp_feel: { [key: number]: number };
-    temp_real: { [key: number]: number };
+    pressure: DataNumber[];
+    air_quality: DataString[];
+    humidity: DataNumber[];
+    visibility:  DataNumber[];
+    temp_feel:  DataNumber[];
+    temp_real:  DataNumber[];
     sunset: string;
     sunrise: string;
-    uv: { [key: number]: number };
+    uv:  DataNumber[];
     moonset: string;
     moonrise: string;
     moon: string;
-    rain: { [key: number]: number };
-    wind: { [key: number]: number };
-    wind_direction: { [key: number]: string };
+    rain:  DataNumber[];
+    wind:  DataNumber[];
+    wind_direction: DataString[];
 };
 
 export type CurrentWeatherResponse = {

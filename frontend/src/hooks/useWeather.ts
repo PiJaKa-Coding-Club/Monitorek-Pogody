@@ -29,7 +29,7 @@ import {
     IconValueUnit,
 } from '../types/weather';
 
-function getRandomArbitrary(min: number, max: number) {
+function rand(min: number, max: number) {
     return Math.floor(Math.random() * (max - min) + min);
 }
 
@@ -44,10 +44,10 @@ createServer({
                     condition: 'rainy',
                     pressure: 1012,
                     air_quality: 'dobre',
-                    humidity: getRandomArbitrary(20, 70),
+                    humidity: rand(20, 70),
                     visibility: 10,
-                    temp_feel: getRandomArbitrary(20, 30),
-                    temp_real: getRandomArbitrary(20, 30),
+                    temp_feel: rand(20, 30),
+                    temp_real: rand(20, 30),
                     sunset: '18:00',
                     sunrise: '6:00',
                     uv: 1,
@@ -81,119 +81,78 @@ createServer({
         this.get('/history/:place/:date', (_, request) => {
             const { place, date } = request.params;
             // date ISO format = '2022-12-28T09:16:20.120Z'
+            const dateObj = new Date(date);
+
+
+            const day = (dateObj.getMonth() + 1).toString().padStart(2, '0');
+            const month = (dateObj.getMonth() + 1).toString().padStart(2, '0'); // padStart to add leading zero
+            const year = dateObj.getFullYear();
+
+            const hours: string[] = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23']
+
+            const qualities: string[] = ['bardzo dobre', 'dobre', 'umiarkowane', 'złe', 'bardzo złe'];
+            const windDirections: string[] = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+
             return {
                 weather: {
                     place: place,
                     date: date,
                     condition: 'rainy', //historical condition (average of day)
-                    pressure: {
-                        23: 1012,
-                        22: 1012,
-                        21: 1012,
-                        20: 1012,
-                        19: 1012,
-                        18: 1012,
-                        17: 1012,
-                        16: 1012,
-                    },
-                    air_quality: {
-                        23: 'dobre',
-                        22: 'dobre',
-                        21: 'dobre',
-                        20: 'dobre',
-                        19: 'dobre',
-                        18: 'dobre',
-                        17: 'dobre',
-                        16: 'dobre',
-                    },
-                    humidity: {
-                        23: 50,
-                        22: 50,
-                        21: 50,
-                        20: 50,
-                        19: 50,
-                        18: 50,
-                        17: 50,
-                        16: 50,
-                    },
-                    visibility: {
-                        23: 50,
-                        22: 50,
-                        21: 50,
-                        20: 50,
-                        19: 50,
-                        18: 50,
-                        17: 50,
-                        16: 50,
-                    },
-                    temp_feel: {
-                        23: 50,
-                        22: 50,
-                        21: 50,
-                        20: 50,
-                        19: 50,
-                        18: 50,
-                        17: 50,
-                        16: 50,
-                    },
-                    temp_real: {
-                        23: 50,
-                        22: 50,
-                        21: 50,
-                        20: 50,
-                        19: 50,
-                        18: 50,
-                        17: 50,
-                        16: 50,
-                    },
-                    sunset: '18:00',
-                    sunrise: '6:00',
-                    uv: {
-                        23: 1,
-                        22: 2,
-                        21: 3,
-                        20: 4,
-                        19: 4,
-                        18: 4,
-                        17: 6,
-                        16: 6,
-                    },
-                    moonset: `${getRandomArbitrary(8, 13)}:${getRandomArbitrary(
-                        20,
-                        30
-                    )}`,
-                    moonrise: '6:00',
+                    pressure: [
+                        ...hours.map(hour => {
+                            return {date: `${year}-${month}-${day}T${hour}:00:00.000Z`, value: rand(998, 1020)}
+                        })
+                    ],
+                    air_quality: [
+                        ...hours.map(hour => {
+                            return {date: `${year}-${month}-${day}T${hour}:00:00.000Z`, value: qualities[rand(0, qualities.length)]}
+                        })
+                    ],
+                    humidity: [
+                        ...hours.map(hour => {
+                            return {date: `${year}-${month}-${day}T${hour}:00:00.000Z`, value: rand(30, 55)}
+                        })
+                    ],
+                    visibility: [
+                        ...hours.map(hour => {
+                            return {date: `${year}-${month}-${day}T${hour}:00:00.000Z`, value: rand(30, 55)}
+                        })
+                    ],
+                    temp_feel: [
+                        ...hours.map(hour => {
+                            return {date: `${year}-${month}-${day}T${hour}:00:00.000Z`, value: rand(12, 23)}
+                        })
+                    ],
+                    temp_real: [
+                        ...hours.map(hour => {
+                            return {date: `${year}-${month}-${day}T${hour}:00:00.000Z`, value: rand(12, 22)}
+                        })
+                    ],
+                    sunset: `${year}-${month}-${day}T22:21:00.000Z`,
+                    sunrise: `${year}-${month}-${day}T22:21:00.000Z`,
+                    uv: [
+                        ...hours.map(hour => {
+                            return {date: `${year}-${month}-${day}T${hour}:00:00.000Z`, value: rand(1, 6)}
+                        })
+                    ],
+                    moonset: `${year}-${month}-${day}T22:21:00.000Z`, //hour is variable
+                    moonrise: `${year}-${month}-${day}T06:00:00.000Z`,//hour is variable
                     moon: 'pełnia',
-                    rain: {
-                        23: 50,
-                        22: 50,
-                        21: 50,
-                        20: 50,
-                        19: 50,
-                        18: 50,
-                        17: 50,
-                        16: 50,
-                    },
-                    wind: {
-                        23: 50,
-                        22: 50,
-                        21: 50,
-                        20: 50,
-                        19: 50,
-                        18: 50,
-                        17: 50,
-                        16: 50,
-                    },
-                    wind_direction: {
-                        23: 'SW',
-                        22: 'SW',
-                        21: 'SW',
-                        20: 'SW',
-                        19: 'SW',
-                        18: 'SW',
-                        17: 'SW',
-                        16: 'SW',
-                    },
+                    rain: [
+                        ...hours.map(hour => {
+                            return {date: `${year}-${month}-${day}T${hour}:00:00.000Z`, value: rand(10, 14)}
+                        })
+                    ],
+                    wind: [
+                        ...hours.map(hour => {
+                            return {date: `${year}-${month}-${day}T${hour}:00:00.000Z`, value: rand(2, 6)}
+                        })
+                    ],
+                    wind_direction: [
+                        ...hours.map(hour => {
+                            return {date: `${year}-${month}-${day}T${hour}:00:00.000Z`, value: windDirections[rand(0, windDirections.length)]}
+                        })
+                    ],
                 },
             };
         });
@@ -231,6 +190,7 @@ export const useWeather = () => {
                     )
                     .then(res => {
                         setHistory(res.data.weather);
+                        console.log(res.data.weather);
                     });
             }
         }
