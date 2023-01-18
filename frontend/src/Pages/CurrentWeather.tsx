@@ -5,6 +5,7 @@ import {
     Page,
     RightCol,
     Row,
+    RowController,
 } from '../components/elements/Column';
 import { Wrapper } from '../components/elements/Wrapper';
 import { NavigatorTab } from '../components/NavigatorTab';
@@ -19,7 +20,7 @@ export const CurrentWeather = () => {
     return (
         <Page>
             <Wrapper>
-                <Controller>
+                <RowController>
                     <LeftCol>
                         {place && weather && (
                             <>
@@ -52,7 +53,7 @@ export const CurrentWeather = () => {
                             </>
                         )}
                     </RightCol>
-                </Controller>
+                </RowController>
             </Wrapper>
         </Page>
     );

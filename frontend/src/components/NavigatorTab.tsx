@@ -44,7 +44,14 @@ export const NavigatorTab = () => {
             >
                 Dane Historyczne
             </StyledButton>
-            <StyledButton>Pogoda na żywo</StyledButton>
+            <StyledButton
+                bold={path === 'live'}
+                onClick={() => {
+                    navigate('/live');
+                }}
+            >
+                Pogoda na żywo
+            </StyledButton>
         </StyledNavigatorTab>
     );
 };

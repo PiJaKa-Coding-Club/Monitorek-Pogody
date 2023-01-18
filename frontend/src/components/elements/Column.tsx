@@ -38,3 +38,7 @@ export const Controller = styled.div`
     align-items: flex-start;
     flex-direction: column;
 `;
+
+export const RowController = styled(Controller)`
+    flex-direction: row;
+`

@@ -9,6 +9,7 @@ import Calendar from 'react-calendar';
 import '../styles/Calendar.css';
 import { NoPlace } from '../components/NoPlace';
 import { ChartBox } from '../components/ChartBox';
+import {useEffect} from 'react'
 import {
     AirQualityIcon,
     HumidityIcon,
@@ -21,9 +22,20 @@ import {
     WindDirectionIcon,
     WindSpeedIcon,
 } from '../assets';
+import { useLive } from '../hooks/useLive';
 
-export const HistoryWeather = () => {
+export const LiveWeather = () => {
     const { place, sun, moon, date, setDate, history } = useWeather();
+    const {liveData} = useLive();
+
+    useEffect(() => {
+        setDate(new Date())
+        console.log(sun)
+    },[])    
+
+    useEffect(() => {
+        console.log(liveData)
+    },[liveData])
 
     return (
         <Page>
@@ -82,14 +94,17 @@ export const HistoryWeather = () => {
 
                         <NavigatorTab />
                     </Row>
-                    {place && history && (
+                    {place && history && liveData && (
                         <>
                             <Row>
                                 <Column>
                                     <ChartBox
                                         icons={[RainIcon]}
                                         label1="Opady"
-                                        data1={history.rain}
+                                        data1={[...history.rain, {
+                                            date: liveData?.date,
+                                            value: liveData?.rain
+                                        }]}
                                         unit={'mm'}
                                     />
                                 </Column>
@@ -97,7 +112,10 @@ export const HistoryWeather = () => {
                                     <ChartBox
                                         icons={[UVIndexIcon]}
                                         label1="Indeks UV"
-                                        data1={history.uv}
+                                        data1={[...history.uv, {
+                                            date: liveData?.date,
+                                            value: liveData?.uv
+                                        }]}
                                     />
                                 </Column>
                             </Row>
@@ -109,7 +127,10 @@ export const HistoryWeather = () => {
                                             WindDirectionIcon,
                                         ]}
                                         label1={'Prędkość wiatru'}
-                                        data1={history.wind}
+                                        data1={[...history.wind, {
+                                            date: liveData?.date,
+                                            value: liveData?.wind
+                                        }]}
                                         unit={'m/s'}
                                     />
                                 </Column>
@@ -120,9 +141,15 @@ export const HistoryWeather = () => {
                                             TemperatureFeelIcon,
                                         ]}
                                         label1={'Temperatura rzeczywista'}
-                                        data1={history.temp_real}
+                                        data1={[...history.temp_real, {
+                                            date: liveData?.date,
+                                            value: liveData?.temp_real
+                                        }]}
                                         label2={'Temperatura odczuwalna'}
-                                        data2={history.temp_feel}
+                                        data2={[...history.temp_feel, {
+                                            date: liveData?.date,
+                                            value: liveData?.temp_feel
+                                        }]}
                                         unit={'°C'}
                                     />
                                 </Column>
@@ -132,7 +159,10 @@ export const HistoryWeather = () => {
                                     <ChartBox
                                         icons={[PressureIcon, AirQualityIcon]}
                                         label1={'Ciśnienie'}
-                                        data1={history.pressure}
+                                        data1={[...history.pressure, {
+                                            date: liveData?.date,
+                                            value: liveData?.pressure
+                                        }]}
                                         unit={'hPa'}
                                     />
                                 </Column>
@@ -142,9 +172,15 @@ export const HistoryWeather = () => {
                                     <ChartBox
                                         icons={[HumidityIcon, VisibilityIcon]}
                                         label1={'Wilgotność'}
-                                        data1={history.humidity}
+                                        data1={[...history.humidity, {
+                                            date: liveData?.date,
+                                            value: liveData?.humidity
+                                        }]}
                                         label2={'Widoczność'}
-                                        data2={history.visibility}
+                                        data2={[...history.visibility, {
+                                            date: liveData?.date,
+                                            value: liveData?.visibility
+                                        }]}
                                         unit={'%'}
                                     />
                                 </Column>
@@ -156,3 +192,5 @@ export const HistoryWeather = () => {
         </Page>
     );
 };
+
+

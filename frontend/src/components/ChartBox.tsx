@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useState } from 'react';
+import { FC, useEffect, useMemo, useState, useCallback } from 'react';
 import { DataString, DataNumber } from '../types/weather';
 import { Icon, StyledWeatherBox } from './elements/WeatherBox';
 import { Chart, AxisOptions, TooltipOptions } from 'react-charts';
@@ -23,7 +23,8 @@ export const ChartBox: FC<Props> = ({
     icons,
     unit,
 }) => {
-    const [data, _] = useState(() => {
+
+    const [data, setData] = useState(() => {
         const mappedData1: MyDatum[] = data1
             .map(o => {
                 return {
@@ -66,8 +67,46 @@ export const ChartBox: FC<Props> = ({
     });
 
     useEffect(() => {
-        console.log(data);
-    });
+        const mappedData1: MyDatum[] = data1
+        .map(o => {
+            return {
+                ...o,
+                date: new Date(o.date),
+            };
+        })
+        .sort((a, b) => {
+            return a.date.getHours() - b.date.getHours();
+        })
+        .slice(1);
+
+    let initial = [
+        {
+            label: label1,
+            data: mappedData1,
+        },
+    ];
+
+    if (data2?.length && label2 && typeof data2[0].value === 'number') {
+        const mappedData2 = data2
+            .map(o => {
+                return {
+                    ...o,
+                    date: new Date(o.date),
+                };
+            })
+            .sort((a, b) => {
+                return a.date.getHours() - b.date.getHours();
+            })
+            .slice(1);
+
+        initial.push({
+            label: label2,
+            data: mappedData2,
+        });
+    }
+
+     setData(initial);
+    }, [data1, data2])
 
     const primaryAxis = useMemo(
         (): AxisOptions<MyDatum> => ({
@@ -80,7 +119,7 @@ export const ChartBox: FC<Props> = ({
                     .toString()
                     .padStart(2, '0')}`,
         }),
-        []
+        [data]
     );
 
     const secondaryAxes = useMemo(
@@ -90,7 +129,7 @@ export const ChartBox: FC<Props> = ({
                 elementType: 'line',
             },
         ],
-        []
+        [data]
     );
     const tooltip = useMemo(
         (): TooltipOptions<MyDatum> => ({
@@ -98,6 +137,17 @@ export const ChartBox: FC<Props> = ({
         }),
         []
     );
+
+    const render =  useCallback(() => {
+        return <Chart
+        options={{
+            data,
+            primaryAxis,
+            secondaryAxes,
+            tooltip,
+        }}
+    />
+    },[data])
 
     return (
         <StyledWeatherBox
@@ -141,14 +191,7 @@ export const ChartBox: FC<Props> = ({
                 ))}
             </div>
             <div style={{ width: '100%' }}>
-                <Chart
-                    options={{
-                        data,
-                        primaryAxis,
-                        secondaryAxes,
-                        tooltip,
-                    }}
-                />
+            {render()}
             </div>
         </StyledWeatherBox>
     );

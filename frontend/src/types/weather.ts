@@ -67,6 +67,21 @@ export type HistoricalWeather = {
     wind_direction: DataString[];
 };
 
+export type LiveWeather = {
+    place: string;
+    date: string;
+    pressure: number;
+    air_quality: string;
+    humidity: number;
+    visibility: number;
+    temp_feel: number;
+    temp_real: number;
+    uv: number;
+    rain: number;
+    wind: number;
+    wind_direction: string;
+}
+
 export type CurrentWeatherResponse = {
     weather: CurrentWeather;
 };
@@ -74,3 +89,8 @@ export type CurrentWeatherResponse = {
 export type HistoricalWeatherResponse = {
     weather: HistoricalWeather;
 };
+
+export type LiveWeatherResponse = {
+    weather: LiveWeather;
+};
+

@@ -132,7 +132,7 @@ createServer({
                 'NW',
             ];
 
-            return {
+            const response = {
                 weather: {
                     place: place,
                     date: date,
@@ -226,12 +226,34 @@ createServer({
                     ],
                 },
             };
+
+            const dateISO = new Date(date).toISOString().slice(0,10);
+            const todayISO = new Date().toISOString().slice(0,10); // eg. 2022-10-10
+
+            if(new Date() < new Date(date)) {
+                throw new Error('Date in future');
+            } else if(dateISO === todayISO) {
+
+                response.weather.humidity = response.weather.humidity.slice(0, new Date().getHours());
+                response.weather.pressure = response.weather.pressure.slice(0, new Date().getHours());
+                response.weather.temp_feel = response.weather.temp_feel.slice(0, new Date().getHours());
+                response.weather.temp_real = response.weather.temp_real.slice(0, new Date().getHours());
+                response.weather.air_quality = response.weather.air_quality.slice(0, new Date().getHours());
+                response.weather.visibility = response.weather.visibility.slice(0, new Date().getHours());
+                response.weather.uv = response.weather.uv.slice(0, new Date().getHours());
+                response.weather.rain = response.weather.rain.slice(0, new Date().getHours());
+                response.weather.wind = response.weather.wind.slice(0, new Date().getHours());
+                response.weather.wind_direction = response.weather.wind_direction.slice(0, new Date().getHours());
+
+                return response;
+            } else{
+                return response;
+            }
         });
     },
 });
 
 const dateToHours = (ISO: string) => {
-    console.log(ISO);
     const date = new Date(ISO);
     const hours = date.getHours().toString().padStart(2, '0');
     const minutes = date.getMinutes().toString().padStart(2, '0');
