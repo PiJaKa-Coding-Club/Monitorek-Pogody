@@ -17,7 +17,7 @@ setInterval(() => {
         client.send(JSON.stringify({
             weather: {
                 place: "A no właśnie XD", 
-                date: new Date(),
+                date: (new Date()).toISOString(),
                 pressure: rand(990, 1011),
                 air_quality: 'dobra',
                 humidity: rand(20, 33),
