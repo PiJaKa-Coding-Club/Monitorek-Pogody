@@ -5,7 +5,6 @@ import { NavigatorTab } from '../components/NavigatorTab';
 import { Place } from '../components/Place';
 import { WeatherBox } from '../components/WeatherBox';
 import { useWeather } from '../hooks/useWeather';
-import Calendar from 'react-calendar';
 import '../styles/Calendar.css';
 import { NoPlace } from '../components/NoPlace';
 import { ChartBox } from '../components/ChartBox';
@@ -23,6 +22,19 @@ import {
     WindSpeedIcon,
 } from '../assets';
 import { useLive } from '../hooks/useLive';
+import styled from 'styled-components';
+
+const LiveDot = styled.div`
+    width: 20px;
+    height: 20px;
+    background-color: red;
+    border-radius: 50%;
+    margin-right: 20px;
+    animation-name: blink;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+`
 
 export const LiveWeather = () => {
     const { place, sun, moon, date, setDate, history } = useWeather();
@@ -50,17 +62,24 @@ export const LiveWeather = () => {
                                     flexDirection: 'column',
                                 }}
                             >
-                                <h1>{`${date.getDate()}.${(date.getMonth() + 1)
-                                    .toString()
-                                    .padStart(
-                                        2,
-                                        '0'
-                                    )}.${date.getFullYear()}`}</h1>
-                                <Calendar
-                                    onChange={setDate}
-                                    value={date}
-                                    maxDate={new Date()}
-                                />
+                            <h1>{`${date.getDate()}.${(date.getMonth() + 1)
+                                .toString()
+                                .padStart(
+                                    2,
+                                    '0'
+                                )}.${date.getFullYear()}`}</h1>
+                                <h1>{`${date.getHours().toString().padStart(2,'0')}:${date.getMinutes().toString().padStart(2,'0')}`}</h1>
+                                <div style={{
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    color: 'red'
+                                }}>
+                                    <LiveDot/>
+                                    <h1>Live</h1>
+                                </div>
+
                             </StyledWeatherBox>
                         </Column>
                         {place && history && (
@@ -106,6 +125,7 @@ export const LiveWeather = () => {
                                             value: liveData?.rain
                                         }]}
                                         unit={'mm'}
+                                        min={0}
                                     />
                                 </Column>
                                 <Column>
@@ -116,6 +136,8 @@ export const LiveWeather = () => {
                                             date: liveData?.date,
                                             value: liveData?.uv
                                         }]}
+                                        min={0}
+                                        max={7}
                                     />
                                 </Column>
                             </Row>
@@ -132,6 +154,7 @@ export const LiveWeather = () => {
                                             value: liveData?.wind
                                         }]}
                                         unit={'m/s'}
+                                        min = {0}
                                     />
                                 </Column>
                                 <Column>
@@ -164,6 +187,8 @@ export const LiveWeather = () => {
                                             value: liveData?.pressure
                                         }]}
                                         unit={'hPa'}
+                                        min={990}
+                                        max={1030}
                                     />
                                 </Column>
                             </Row>
@@ -182,6 +207,7 @@ export const LiveWeather = () => {
                                             value: liveData?.visibility
                                         }]}
                                         unit={'%'}
+                                        min={0}
                                     />
                                 </Column>
                             </Row>

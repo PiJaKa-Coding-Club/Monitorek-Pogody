@@ -8,6 +8,8 @@ type Props = {
     label1: string;
     data1: DataNumber[];
     icons: string[];
+    min?: number;
+    max?: number;
     label2?: string;
     data2?: DataNumber[] | DataString[];
     unit?: string;
@@ -22,6 +24,8 @@ export const ChartBox: FC<Props> = ({
     label2,
     icons,
     unit,
+    min,
+    max,
 }) => {
 
     const [data, setData] = useState(() => {
@@ -127,6 +131,8 @@ export const ChartBox: FC<Props> = ({
             {
                 getValue: datum => datum.value,
                 elementType: 'line',
+                min,
+                max
             },
         ],
         [data]

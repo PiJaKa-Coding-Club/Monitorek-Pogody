@@ -37,3 +37,8 @@
         transform: rotate(360deg);
     }
 }
+
+@keyframes blink {
+    from {background-color: transparent;}
+    to {background-color: red;}
+  }

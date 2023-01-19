@@ -290,6 +290,7 @@ export const useWeather = () => {
                         `/history/${place}/${date.toISOString()}`
                     )
                     .then(res => {
+                        console.log("asdadsasdasd")
                         setHistory(res.data.weather);
                         console.log(res.data.weather);
                     });
@@ -383,7 +384,7 @@ export const useWeather = () => {
     }, [weather, path]);
 
     useEffect(() => {
-        if (history && path === 'history') {
+        if (history && ['history', 'live'].includes(path!)) {
             setSun([
                 {
                     icon: SunsetIcon,

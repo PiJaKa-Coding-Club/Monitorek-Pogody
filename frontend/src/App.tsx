@@ -6,6 +6,7 @@ import { background } from './styles/colors/colors';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import { HistoryWeather } from './Pages/HistoryWeather';
 import { LiveWeather } from './Pages/LiveWeather';
+import { PageNotFound } from './Pages/PageNotFound';
 
 const StyledApp = styled.div`
     background-color: ${background};
@@ -21,6 +22,7 @@ function App() {
                 <Route path="/current" element={<CurrentWeather />} />
                 <Route path="/history" element={<HistoryWeather />} />
                 <Route path="/live" element={<LiveWeather />} />
+                <Route path='*' element={<PageNotFound/>}/>
             </Routes>
         </StyledApp>
     );
