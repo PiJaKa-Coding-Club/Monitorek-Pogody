@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone, tzinfo
 from django.http import HttpResponseBadRequest, JsonResponse
 from django.http.response import HttpResponseNotFound
 from django.shortcuts import render
@@ -89,39 +89,72 @@ def get_history_data(request, place, dateISO):
 
     (lantitude, longitude) = PLACE_TO_COORDINATES_MAPPING[place]
 
-
     pogoda_series_data = Pogoda.objects.filter(
-        dataPomiaru__lte=datetime.today(),
+        dataPomiaru__lte=datetime.now() + requested_date.utcoffset(),
         dataPomiaru__year=requested_date.year,
         dataPomiaru__month=requested_date.month,
         dataPomiaru__day=requested_date.day,
         lokalizacja__szerokosc=lantitude,
         lokalizacja__dlugosc=longitude,
-    ).order_by('dataPomiaru')
+    ).order_by("dataPomiaru")
+
+    breakpoint()
 
     if not pogoda_series_data:
-        return HttpResponseNotFound(content=b"There is no data for a given date or place")
+        return HttpResponseNotFound(
+            content=b"There is no data for a given date or place"
+        )
 
     data = {
         "weather": {
             "place": place,
             "date": dateISO,
             "condition": pogoda_series_data[0].warunkiPogodowe,
-            "pressure": [{"date": sample.dataPomiaru, "value": sample.cisnienie} for sample in pogoda_series_data],
-            "air_quality": [{"date": sample.dataPomiaru, "value": sample.jakoscPowietrza} for sample in pogoda_series_data],
-            "humidity": [{"date": sample.dataPomiaru, "value": sample.wilgotnosc} for sample in pogoda_series_data],
-            "visibility": [{"date": sample.dataPomiaru, "value": sample.widocznosc} for sample in pogoda_series_data],
-            "temp_feel": [{"date": sample.dataPomiaru, "value": sample.temperaturaOdczuwalna} for sample in pogoda_series_data],
-            "temp_real": [{"date": sample.dataPomiaru, "value": sample.temperaturaRzeczywista} for sample in pogoda_series_data],
+            "pressure": [
+                {"date": sample.dataPomiaru, "value": sample.cisnienie}
+                for sample in pogoda_series_data
+            ],
+            "air_quality": [
+                {"date": sample.dataPomiaru, "value": sample.jakoscPowietrza}
+                for sample in pogoda_series_data
+            ],
+            "humidity": [
+                {"date": sample.dataPomiaru, "value": sample.wilgotnosc}
+                for sample in pogoda_series_data
+            ],
+            "visibility": [
+                {"date": sample.dataPomiaru, "value": sample.widocznosc}
+                for sample in pogoda_series_data
+            ],
+            "temp_feel": [
+                {"date": sample.dataPomiaru, "value": sample.temperaturaOdczuwalna}
+                for sample in pogoda_series_data
+            ],
+            "temp_real": [
+                {"date": sample.dataPomiaru, "value": sample.temperaturaRzeczywista}
+                for sample in pogoda_series_data
+            ],
             "sunset": pogoda_series_data[0].zachodSlonca,
             "sunrise": pogoda_series_data[0].wschodSlonca,
-            "uv": [{"date": sample.dataPomiaru, "value": sample.indeksUV} for sample in pogoda_series_data],
+            "uv": [
+                {"date": sample.dataPomiaru, "value": sample.indeksUV}
+                for sample in pogoda_series_data
+            ],
             "moonset": pogoda_series_data[0].zachodKsiezyca,
             "moonrise": pogoda_series_data[0].wschodKsiezyca,
             "moon": pogoda_series_data[0].fazaKsiezyca,
-            "rain": [{"date": sample.dataPomiaru, "value": sample.opady} for sample in pogoda_series_data],
-            "wind": [{"date": sample.dataPomiaru, "value": sample.predkoscWiatru} for sample in pogoda_series_data],
-            "wind_direction": [{"date": sample.dataPomiaru, "value": sample.kierunekWiatru} for sample in pogoda_series_data],
+            "rain": [
+                {"date": sample.dataPomiaru, "value": sample.opady}
+                for sample in pogoda_series_data
+            ],
+            "wind": [
+                {"date": sample.dataPomiaru, "value": sample.predkoscWiatru}
+                for sample in pogoda_series_data
+            ],
+            "wind_direction": [
+                {"date": sample.dataPomiaru, "value": sample.kierunekWiatru}
+                for sample in pogoda_series_data
+            ],
         }
     }
 
