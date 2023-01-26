@@ -10,6 +10,7 @@ PLACE_TO_COORDINATES_MAPPING = {
     "Wrocław": (51.107883, 17.038538),
     "Wronki": (52.42, 16.23),
     "Milanówek": (52.118532, 20.671623),
+    "Węgorzewo": (54.125641, 21.441392),
 }
 
 COORDINATES_TO_PLACE_MAPPING = {
@@ -17,6 +18,7 @@ COORDINATES_TO_PLACE_MAPPING = {
     (51.107883, 17.038538): "Wrocław",
     (52.42, 16.23): "Wronki",
     (52.118532, 20.671623): "Milanówek",
+    (54.125641, 21.441392): "Węgorzewo",
 }
 
 

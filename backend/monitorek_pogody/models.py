@@ -6,7 +6,7 @@ from django.db import models
 class Pogoda(models.Model):
     class WarunkiPogodoweEnum(models.Choices):
         SUNNY = "sunny"
-        PARTIALLYSUNNY = "partiallysunny"
+        PARTIALLYSUNNY = "partially sunny"
         CLOUDY = "cloudy"
         RAINY = "rainy"
         SNOWY = "snowy"
