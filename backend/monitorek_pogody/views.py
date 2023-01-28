@@ -23,6 +23,8 @@ COORDINATES_TO_PLACE_MAPPING = {
 
 
 def get_current_place(request, place):
+    place = place.lower().capitalize()
+
     if place not in PLACE_TO_COORDINATES_MAPPING:
         return HttpResponseBadRequest(content=b"This place does not exist!")
 
@@ -79,6 +81,9 @@ def get_cities(request, q):
 
 
 def get_history_data(request, place, dateISO):
+
+    place = place.lower().capitalize()
+
     try:
         requested_date = datetime.fromisoformat(dateISO)
     except ValueError:
@@ -90,15 +95,15 @@ def get_history_data(request, place, dateISO):
     (lantitude, longitude) = PLACE_TO_COORDINATES_MAPPING[place]
 
     pogoda_series_data = Pogoda.objects.filter(
-        dataPomiaru__lte=datetime.now() + requested_date.utcoffset(),
+        dataPomiaru__lte=datetime.now() + requested_date.utcoffset()
+        if requested_date.utcoffset()
+        else datetime.now(),
         dataPomiaru__year=requested_date.year,
         dataPomiaru__month=requested_date.month,
         dataPomiaru__day=requested_date.day,
         lokalizacja__szerokosc=lantitude,
         lokalizacja__dlugosc=longitude,
     ).order_by("dataPomiaru")
-
-    breakpoint()
 
     if not pogoda_series_data:
         return HttpResponseNotFound(
