@@ -7,7 +7,8 @@ export const useSearch = () => {
 
     useEffect(() => {
         if (search && search.length > 2) {
-            axios.get(`/cities/${search}`).then(res => {
+            axios.get(`http://127.0.0.1:8000/cities/${search}`).then(res => {
+                console.log(res)
                 setResults(res.data.cities.slice(0, 3));
             });
         }
