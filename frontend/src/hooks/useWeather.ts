@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { createServer } from 'miragejs';
+// import { createServer } from 'miragejs';
 import { useEffect, useState } from 'react';
 import {
     AirQualityIcon,
@@ -33,225 +33,225 @@ function rand(min: number, max: number) {
     return Math.floor(Math.random() * (max - min) + min);
 }
 
-createServer({
-    routes() {
-        this.get('/current/:place', (_, request) => {
-            const { place } = request.params;
+// createServer({
+//     routes() {
+//         this.get('/current/:place', (_, request) => {
+//             const { place } = request.params;
 
-            return {
-                weather: {
-                    place: place,
-                    condition: 'rainy',
-                    pressure: 1012,
-                    air_quality: 'dobre',
-                    humidity: rand(20, 70),
-                    visibility: 10,
-                    temp_feel: rand(20, 30),
-                    temp_real: rand(20, 30),
-                    sunset: '2022-12-12T22:21:00.000Z',
-                    sunrise: '2022-12-12T22:21:00.000Z',
-                    uv: 1,
-                    moonset: '2022-12-12T22:21:00.000Z',
-                    moonrise: '2022-12-12T22:21:00.000Z',
-                    moon: 'pełnia',
-                    rain: 20,
-                    wind: 20,
-                    wind_direction: 'SW',
-                },
-            };
-        });
+//             return {
+//                 weather: {
+//                     place: place,
+//                     condition: 'rainy',
+//                     pressure: 1012,
+//                     air_quality: 'dobre',
+//                     humidity: rand(20, 70),
+//                     visibility: 10,
+//                     temp_feel: rand(20, 30),
+//                     temp_real: rand(20, 30),
+//                     sunset: '2022-12-12T22:21:00.000Z',
+//                     sunrise: '2022-12-12T22:21:00.000Z',
+//                     uv: 1,
+//                     moonset: '2022-12-12T22:21:00.000Z',
+//                     moonrise: '2022-12-12T22:21:00.000Z',
+//                     moon: 'pełnia',
+//                     rain: 20,
+//                     wind: 20,
+//                     wind_direction: 'SW',
+//                 },
+//             };
+//         });
 
-        this.get('/cities/:q', (_, request) => {
-            const cities = [
-                'Wrocław',
-                'Wronki',
-                'Wrocławek',
-                'Włocławek',
-                'Nowy sad',
-                'Nowosybirsk',
-            ];
-            const { q } = request.params;
-            return {
-                cities: cities.filter(city =>
-                    city.toLowerCase().startsWith(q.toLowerCase())
-                ),
-            };
-        });
+//         // this.get('/cities/:q', (_, request) => {
+//         //     const cities = [
+//         //         'Wrocław',
+//         //         'Wronki',
+//         //         'Wrocławek',
+//         //         'Włocławek',
+//         //         'Nowy sad',
+//         //         'Nowosybirsk',
+//         //     ];
+//         //     const { q } = request.params;
+//         //     return {
+//         //         cities: cities.filter(city =>
+//         //             city.toLowerCase().startsWith(q.toLowerCase())
+//         //         ),
+//         //     };
+//         // });
 
-        this.get('/history/:place/:date', (_, request) => {
-            const { place, date } = request.params;
-            // date ISO format = '2022-12-28T09:16:20.120Z'
-            const dateObj = new Date(date);
+//         this.get('/history/:place/:date', (_, request) => {
+//             const { place, date } = request.params;
+//             // date ISO format = '2022-12-28T09:16:20.120Z'
+//             const dateObj = new Date(date);
 
-            const day = (dateObj.getMonth() + 1).toString().padStart(2, '0');
-            const month = (dateObj.getMonth() + 1).toString().padStart(2, '0'); // padStart to add leading zero
-            const year = dateObj.getFullYear();
+//             const day = (dateObj.getMonth() + 1).toString().padStart(2, '0');
+//             const month = (dateObj.getMonth() + 1).toString().padStart(2, '0'); // padStart to add leading zero
+//             const year = dateObj.getFullYear();
 
-            const hours: string[] = [
-                '00',
-                '01',
-                '02',
-                '03',
-                '04',
-                '05',
-                '06',
-                '07',
-                '08',
-                '09',
-                '10',
-                '11',
-                '12',
-                '13',
-                '14',
-                '15',
-                '16',
-                '17',
-                '18',
-                '19',
-                '20',
-                '21',
-                '22',
-                '23',
-            ];
+//             const hours: string[] = [
+//                 '00',
+//                 '01',
+//                 '02',
+//                 '03',
+//                 '04',
+//                 '05',
+//                 '06',
+//                 '07',
+//                 '08',
+//                 '09',
+//                 '10',
+//                 '11',
+//                 '12',
+//                 '13',
+//                 '14',
+//                 '15',
+//                 '16',
+//                 '17',
+//                 '18',
+//                 '19',
+//                 '20',
+//                 '21',
+//                 '22',
+//                 '23',
+//             ];
 
-            const qualities: string[] = [
-                'bardzo dobre',
-                'dobre',
-                'umiarkowane',
-                'złe',
-                'bardzo złe',
-            ];
-            const windDirections: string[] = [
-                'N',
-                'NE',
-                'E',
-                'SE',
-                'S',
-                'SW',
-                'W',
-                'NW',
-            ];
+//             const qualities: string[] = [
+//                 'bardzo dobre',
+//                 'dobre',
+//                 'umiarkowane',
+//                 'złe',
+//                 'bardzo złe',
+//             ];
+//             const windDirections: string[] = [
+//                 'N',
+//                 'NE',
+//                 'E',
+//                 'SE',
+//                 'S',
+//                 'SW',
+//                 'W',
+//                 'NW',
+//             ];
 
-            const response = {
-                weather: {
-                    place: place,
-                    date: date,
-                    condition: 'rainy', //historical condition (average of day)
-                    pressure: [
-                        ...hours.map(hour => {
-                            return {
-                                date: `${year}-${month}-${day}T${hour}:00:00.000Z`,
-                                value: rand(998, 1020),
-                            };
-                        }),
-                    ],
-                    air_quality: [
-                        ...hours.map(hour => {
-                            return {
-                                date: `${year}-${month}-${day}T${hour}:00:00.000Z`,
-                                value: qualities[rand(0, qualities.length)],
-                            };
-                        }),
-                    ],
-                    humidity: [
-                        ...hours.map(hour => {
-                            return {
-                                date: `${year}-${month}-${day}T${hour}:00:00.000Z`,
-                                value: rand(30, 55),
-                            };
-                        }),
-                    ],
-                    visibility: [
-                        ...hours.map(hour => {
-                            return {
-                                date: `${year}-${month}-${day}T${hour}:00:00.000Z`,
-                                value: rand(30, 55),
-                            };
-                        }),
-                    ],
-                    temp_feel: [
-                        ...hours.map(hour => {
-                            return {
-                                date: `${year}-${month}-${day}T${hour}:00:00.000Z`,
-                                value: rand(12, 23),
-                            };
-                        }),
-                    ],
-                    temp_real: [
-                        ...hours.map(hour => {
-                            return {
-                                date: `${year}-${month}-${day}T${hour}:00:00.000Z`,
-                                value: rand(12, 22),
-                            };
-                        }),
-                    ],
-                    sunset: `${year}-${month}-${day}T22:21:00.000Z`,
-                    sunrise: `${year}-${month}-${day}T22:21:00.000Z`,
-                    uv: [
-                        ...hours.map(hour => {
-                            return {
-                                date: `${year}-${month}-${day}T${hour}:00:00.000Z`,
-                                value: rand(1, 6),
-                            };
-                        }),
-                    ],
-                    moonset: `${year}-${month}-${day}T22:21:00.000Z`, //hour is variable
-                    moonrise: `${year}-${month}-${day}T06:00:00.000Z`, //hour is variable
-                    moon: 'pełnia',
-                    rain: [
-                        ...hours.map(hour => {
-                            return {
-                                date: `${year}-${month}-${day}T${hour}:00:00.000Z`,
-                                value: rand(10, 14),
-                            };
-                        }),
-                    ],
-                    wind: [
-                        ...hours.map(hour => {
-                            return {
-                                date: `${year}-${month}-${day}T${hour}:00:00.000Z`,
-                                value: rand(2, 6),
-                            };
-                        }),
-                    ],
-                    wind_direction: [
-                        ...hours.map(hour => {
-                            return {
-                                date: `${year}-${month}-${day}T${hour}:00:00.000Z`,
-                                value: windDirections[
-                                    rand(0, windDirections.length)
-                                ],
-                            };
-                        }),
-                    ],
-                },
-            };
+//             const response = {
+//                 weather: {
+//                     place: place,
+//                     date: date,
+//                     condition: 'rainy', //historical condition (average of day)
+//                     pressure: [
+//                         ...hours.map(hour => {
+//                             return {
+//                                 date: `${year}-${month}-${day}T${hour}:00:00.000Z`,
+//                                 value: rand(998, 1020),
+//                             };
+//                         }),
+//                     ],
+//                     air_quality: [
+//                         ...hours.map(hour => {
+//                             return {
+//                                 date: `${year}-${month}-${day}T${hour}:00:00.000Z`,
+//                                 value: qualities[rand(0, qualities.length)],
+//                             };
+//                         }),
+//                     ],
+//                     humidity: [
+//                         ...hours.map(hour => {
+//                             return {
+//                                 date: `${year}-${month}-${day}T${hour}:00:00.000Z`,
+//                                 value: rand(30, 55),
+//                             };
+//                         }),
+//                     ],
+//                     visibility: [
+//                         ...hours.map(hour => {
+//                             return {
+//                                 date: `${year}-${month}-${day}T${hour}:00:00.000Z`,
+//                                 value: rand(30, 55),
+//                             };
+//                         }),
+//                     ],
+//                     temp_feel: [
+//                         ...hours.map(hour => {
+//                             return {
+//                                 date: `${year}-${month}-${day}T${hour}:00:00.000Z`,
+//                                 value: rand(12, 23),
+//                             };
+//                         }),
+//                     ],
+//                     temp_real: [
+//                         ...hours.map(hour => {
+//                             return {
+//                                 date: `${year}-${month}-${day}T${hour}:00:00.000Z`,
+//                                 value: rand(12, 22),
+//                             };
+//                         }),
+//                     ],
+//                     sunset: `${year}-${month}-${day}T22:21:00.000Z`,
+//                     sunrise: `${year}-${month}-${day}T22:21:00.000Z`,
+//                     uv: [
+//                         ...hours.map(hour => {
+//                             return {
+//                                 date: `${year}-${month}-${day}T${hour}:00:00.000Z`,
+//                                 value: rand(1, 6),
+//                             };
+//                         }),
+//                     ],
+//                     moonset: `${year}-${month}-${day}T22:21:00.000Z`, //hour is variable
+//                     moonrise: `${year}-${month}-${day}T06:00:00.000Z`, //hour is variable
+//                     moon: 'pełnia',
+//                     rain: [
+//                         ...hours.map(hour => {
+//                             return {
+//                                 date: `${year}-${month}-${day}T${hour}:00:00.000Z`,
+//                                 value: rand(10, 14),
+//                             };
+//                         }),
+//                     ],
+//                     wind: [
+//                         ...hours.map(hour => {
+//                             return {
+//                                 date: `${year}-${month}-${day}T${hour}:00:00.000Z`,
+//                                 value: rand(2, 6),
+//                             };
+//                         }),
+//                     ],
+//                     wind_direction: [
+//                         ...hours.map(hour => {
+//                             return {
+//                                 date: `${year}-${month}-${day}T${hour}:00:00.000Z`,
+//                                 value: windDirections[
+//                                     rand(0, windDirections.length)
+//                                 ],
+//                             };
+//                         }),
+//                     ],
+//                 },
+//             };
 
-            const dateISO = new Date(date).toISOString().slice(0,10);
-            const todayISO = new Date().toISOString().slice(0,10); // eg. 2022-10-10
+//             const dateISO = new Date(date).toISOString().slice(0,10);
+//             const todayISO = new Date().toISOString().slice(0,10); // eg. 2022-10-10
 
-            if(new Date() < new Date(date)) {
-                throw new Error('Date in future');
-            } else if(dateISO === todayISO) {
+//             if(new Date() < new Date(date)) {
+//                 throw new Error('Date in future');
+//             } else if(dateISO === todayISO) {
 
-                response.weather.humidity = response.weather.humidity.slice(0, new Date().getHours());
-                response.weather.pressure = response.weather.pressure.slice(0, new Date().getHours());
-                response.weather.temp_feel = response.weather.temp_feel.slice(0, new Date().getHours());
-                response.weather.temp_real = response.weather.temp_real.slice(0, new Date().getHours());
-                response.weather.air_quality = response.weather.air_quality.slice(0, new Date().getHours());
-                response.weather.visibility = response.weather.visibility.slice(0, new Date().getHours());
-                response.weather.uv = response.weather.uv.slice(0, new Date().getHours());
-                response.weather.rain = response.weather.rain.slice(0, new Date().getHours());
-                response.weather.wind = response.weather.wind.slice(0, new Date().getHours());
-                response.weather.wind_direction = response.weather.wind_direction.slice(0, new Date().getHours());
+//                 response.weather.humidity = response.weather.humidity.slice(0, new Date().getHours());
+//                 response.weather.pressure = response.weather.pressure.slice(0, new Date().getHours());
+//                 response.weather.temp_feel = response.weather.temp_feel.slice(0, new Date().getHours());
+//                 response.weather.temp_real = response.weather.temp_real.slice(0, new Date().getHours());
+//                 response.weather.air_quality = response.weather.air_quality.slice(0, new Date().getHours());
+//                 response.weather.visibility = response.weather.visibility.slice(0, new Date().getHours());
+//                 response.weather.uv = response.weather.uv.slice(0, new Date().getHours());
+//                 response.weather.rain = response.weather.rain.slice(0, new Date().getHours());
+//                 response.weather.wind = response.weather.wind.slice(0, new Date().getHours());
+//                 response.weather.wind_direction = response.weather.wind_direction.slice(0, new Date().getHours());
 
-                return response;
-            } else{
-                return response;
-            }
-        });
-    },
-});
+//                 return response;
+//             } else{
+//                 return response;
+//             }
+//         });
+//     },
+// });
 
 const dateToHours = (ISO: string) => {
     const date = new Date(ISO);
@@ -279,7 +279,7 @@ export const useWeather = () => {
         if (place) {
             axios
                 .get<string, AxiosResponse<CurrentWeatherResponse>>(
-                    `/current/${place}`
+                    `http://127.0.0.1:8000/current/${place}`
                 )
                 .then(res => {
                     setWeather(res.data.weather);
@@ -287,7 +287,7 @@ export const useWeather = () => {
             if (date) {
                 axios
                     .get<string, AxiosResponse<HistoricalWeatherResponse>>(
-                        `/history/${place}/${date.toISOString()}`
+                        `http://127.0.0.1:8000/history/wrocław/${date.toISOString()}`
                     )
                     .then(res => {
                         console.log("asdadsasdasd")
