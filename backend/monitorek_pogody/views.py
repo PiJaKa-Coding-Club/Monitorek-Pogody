@@ -68,6 +68,8 @@ def get_current_place(request, place):
 
 
 def get_cities(request, q):
+    if not q.isalpha():
+        return HttpResponseBadRequest(content=b"This place does not exist!")
     coordinates_list = Lokalizacja.objects.values_list("szerokosc", "dlugosc")
     cities = [
         COORDINATES_TO_PLACE_MAPPING[coordinates]
