@@ -82,6 +82,7 @@ def get_cities(request, q):
 
 def get_history_data(request, place, dateISO):
 
+    dateISO = dateISO.replace("Z", "+00:00")
     place = place.lower().capitalize()
 
     try:
